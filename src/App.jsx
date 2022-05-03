@@ -40,7 +40,22 @@ function App() {
         fecha: "",
         nota: "",
     });
-   }; 
+   };
+   
+   const handleBorrarNota = (index) => {
+     const nuevoArreglo = []
+
+     arregloNotas.forEach((nota, i) => {
+       if (index != i){
+         nuevoArreglo.push(nota);
+     };
+    
+     });
+
+     localStorage.setItem("notas",JSON.stringify(nuevoArreglo));
+     arregloNotas = [...arregloNotas];
+
+   };
     
   return (
     <div className="App container">
@@ -55,10 +70,17 @@ function App() {
             {
               arregloNotas.length !== 0 &&(
               <ol>
-              {arregloNotas.map((item)=> {
+              {arregloNotas.map((item, index)=> {
                 return(
                   <li>
                     { item.titulo }({item.fecha})
+                    <i 
+                    class="bi bi-x-circle-fill" 
+                    onClick={() => handleBorrarNota(index)}
+                    style={{
+                    color: "red", 
+                    frontsize: "0.75rem",
+                    cursor:"pointer"}}></i>
                   </li>
                 );
               })}
