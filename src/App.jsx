@@ -10,6 +10,12 @@ function App() {
     nota: "",
   }); //VALOR INICIAL DEL STATE
 
+  const initialState = JSON.parse (localStorage.getItem("notas")) || [];
+
+  const [notas, setNotas] = useState(initialState);
+
+  
+
   const handleInputChange = (event) => { 
     //console.log(event.target);
       setInputState({
@@ -25,12 +31,11 @@ function App() {
     setInputState ({titulo: " ", fecha: " ", nota: " "});
   };
 
-  let arregloNotas = JSON.parse (localStorage.getItem("notas")) || [];
 
   const handleClickGuardar = () => {
     
-    arregloNotas.push(inputState)
-    localStorage.setItem("notas",JSON.stringify(arregloNotas));
+    setNotas.push(inputState)
+    localStorage.setItem("notas",JSON.stringify(notas));
     handleClickLimpiar();
   };
 
@@ -45,15 +50,15 @@ function App() {
    const handleBorrarNota = (index) => {
      const nuevoArreglo = []
 
-     arregloNotas.forEach((nota, i) => {
-       if (index != i){
+     notas.forEach((nota, i) => {
+       if (index !== i){
          nuevoArreglo.push(nota);
      };
     
      });
 
      localStorage.setItem("notas",JSON.stringify(nuevoArreglo));
-     arregloNotas = [...arregloNotas];
+     setNotas = [...nuevoArreglo];
 
    };
     
@@ -63,14 +68,14 @@ function App() {
         <div className="col"> 
             <h3>Lista</h3>
             {
-              arregloNotas.length === 0 &&
+              notas.length === 0 &&
               "Al momento momento no tiene notas guardadas. Puedes crear unas en el formularios antiguo" 
             } 
 
             {
-              arregloNotas.length !== 0 &&(
+              notas.length !== 0 &&(
               <ol>
-              {arregloNotas.map((item, index)=> {
+              {notas.map((item, index)=> {
                 return(
                   <li>
                     { item.titulo }({item.fecha})
